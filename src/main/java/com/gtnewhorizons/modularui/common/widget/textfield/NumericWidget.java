@@ -9,6 +9,12 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
+import java.util.function.IntUnaryOperator;
+import java.util.function.LongConsumer;
+import java.util.function.LongSupplier;
+import java.util.function.LongUnaryOperator;
 import java.util.regex.Pattern;
 
 import net.minecraft.network.PacketBuffer;
@@ -270,10 +276,54 @@ public class NumericWidget extends BaseTextFieldWidget implements ISyncedWidget 
     }
 
     /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setGetter(() -> (double) getter.getAsInt())</code>.
+     *
+     * @see #setGetter
+     */
+    public NumericWidget setGetterInt(IntSupplier getter) {
+        this.getter = () -> (double) getter.getAsInt();
+        return this;
+    }
+
+    /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setGetter(() -> (double) getter.getAsLong())</code>.
+     *
+     * @see #setGetter
+     */
+    public NumericWidget setGetterLong(LongSupplier getter) {
+        this.getter = () -> (double) getter.getAsLong();
+        return this;
+    }
+
+    /**
      * Sets a consumer of values entered by the player.
      */
     public NumericWidget setSetter(DoubleConsumer setter) {
         this.setter = setter;
+        return this;
+    }
+
+    /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setSetter(value -> setter.accept((int) value))</code>.
+     *
+     * @see #setSetter
+     */
+    public NumericWidget setSetterInt(IntConsumer setter) {
+        this.setter = val -> setter.accept((int) val);
+        return this;
+    }
+
+    /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setSetter(value -> setter.accept((long) value))</code>.
+     *
+     * @see #setSetter
+     */
+    public NumericWidget setSetterLong(LongConsumer setter) {
+        this.setter = val -> setter.accept((long) val);
         return this;
     }
 
@@ -283,6 +333,28 @@ public class NumericWidget extends BaseTextFieldWidget implements ISyncedWidget 
      */
     public NumericWidget setValidator(DoubleUnaryOperator validator) {
         this.validator = validator;
+        return this;
+    }
+
+    /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setValidator(value -> validator.applyAsInt((int) value))</code>.
+     *
+     * @see #setValidator
+     */
+    public NumericWidget setValidatorInt(IntUnaryOperator validator) {
+        this.validator = val -> validator.applyAsInt((int) val);
+        return this;
+    }
+
+    /**
+     * Convenience method to avoid needing explicit casts in code. Equivalent to
+     * <code>setValidator(value -> validator.applyAsLong((long) value))</code>.
+     *
+     * @see #setValidator
+     */
+    public NumericWidget setValidatorLong(LongUnaryOperator validator) {
+        this.validator = val -> validator.applyAsLong((long) val);
         return this;
     }
 
